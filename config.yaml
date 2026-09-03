@@ -1,0 +1,22 @@
+# video_agent 配置
+# 看视频的助理：ASR→带时间戳字幕→qwen多轮对话→看细节
+# 按需调用工具（不常驻），幻日通过 .venv/bin/python va.py ... 驱动
+
+asr:
+  model_size: small        # tiny/base/small/medium/large-v3；small 是 CPU 平衡点(质量/速度)
+  compute_type: int8       # CPU 用 int8(省内存快)
+  language: zh             # 强制中文
+  vad_filter: true         # 静音检测，跳过无人声段
+  beam_size: 5
+  simplify: true           # 繁转简(若 opencc 可用；装不上自动跳过,qwen 也能读繁体)
+
+llm:
+  base_url: http://127.0.0.1:9000/v1   # 占位：换成你的 LLM 端点
+  api_key: sk-mykey
+  model: qwen3.8-27b       # 思考型模型(reasoning_content)，max_tokens 要留足
+  max_tokens: 4096
+
+clip:
+  frames_default: 2        # clip 看细节默认抽几帧
+
+sessions_dir: sessions     # 会话数据目录(相对子项目根，已 gitignore)
